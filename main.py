@@ -16,9 +16,8 @@ def cartesian_product(*arrays):
 def main():
     canvas = physvis.Canvas()
 
-    x = cartesian_product(np.arange(320), np.arange(320))
-    wf = physvis.wavefunction.wavepacket((50, 50), 30, x)
-    print(x.shape, wf.shape)
+    x = physvis.space.isotropic(500)
+    wf = physvis.wavefunction.wavepacket((10, 0), (250, 250), 10, x)
     assert (x.shape[:-1] == wf.shape)
 
     particle_system = physvis.ParticleSystem([
@@ -32,7 +31,7 @@ def main():
         window.clear()
         particle_system.draw(canvas)
 
-    pyglet.clock.schedule_interval(particle_system.update, 0.1)
+    pyglet.clock.schedule_interval(particle_system.update, 0.01)
 
     pyglet.app.run()
 

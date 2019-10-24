@@ -2,6 +2,8 @@ import matplotlib.cm
 import numpy as np
 import pyglet
 
+from . import space
+
 
 color_map = matplotlib.cm.get_cmap('viridis_r')
 
@@ -20,16 +22,12 @@ class Canvas:
         )
 
     def draw_map(self, xs, ss):
-        xs = np.asanyarray(xs)
-        ss = np.asanyarray(ss)
+        xs = np.asanyarray(xs).reshape((-1, 2))
+        ss = np.asanyarray(ss).flatten()
         cs = (color_map(ss)[:, :3]*255).astype(int)
-        print(xs.shape, ss.shape, cs.shape)
-        print(xs.dtype, ss.dtype, cs.dtype)
-        print(xs.flatten())
-        print(cs.flatten())
 
         pyglet.graphics.draw(
-            len(xs),
+            len(ss),
             pyglet.gl.GL_POINTS,
             ('v2i', xs.flatten()),
             ('c3B', cs.flatten()),
