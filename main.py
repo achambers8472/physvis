@@ -17,12 +17,20 @@ def main():
     canvas = physvis.Canvas()
 
     x = physvis.space.isotropic(500)
-    wf = physvis.wavefunction.wavepacket((10, 0), (250, 250), 10, x)
+    wf = physvis.wavefunction.wavepacket(
+        (10, 20),
+        (250, 250),
+        50,
+        x,
+    )
+    V = np.zeros((500, 500))
+    V[400:410, :] = 1000
     assert (x.shape[:-1] == wf.shape)
 
     particle_system = physvis.ParticleSystem([
         physvis.QuantumParticle(x, wf)
     ])
+    particle_system.particles[0].V = V
 
     window = pyglet.window.Window()
 

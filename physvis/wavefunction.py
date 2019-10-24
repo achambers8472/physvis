@@ -4,6 +4,7 @@ import numpy as np
 def wavepacket(p_0, x_0, a, x):
     p_0 = np.asanyarray(p_0)
     x_0 = np.asanyarray(x_0)
+    print((x - x_0).shape)
     norm = 1/(a*np.pi**0.5)
     wf = (
         norm
