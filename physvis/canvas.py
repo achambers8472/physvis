@@ -21,10 +21,11 @@ class Canvas:
             ('c3B', colour,),
         )
 
-    def draw_map(self, xs, ss):
-        xs = np.asanyarray(xs).reshape((-1, 2))
+    def draw_map(self, ss):
+        N = len(ss)
         ss = np.asanyarray(ss).flatten()
         cs = (color_map(ss)[:, :3]*255).astype(int)
+        xs = space.isotropic(N)
 
         pyglet.graphics.draw(
             len(ss),

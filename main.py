@@ -7,15 +7,21 @@ import physvis
 def main():
     canvas = physvis.Canvas()
 
-    x = physvis.space.isotropic(500)
+    N = 100
+    dx = 0.1
+    x0 = -0.5*N*dx*np.asanyarray([1, 1])
+    x = x0 + physvis.space.isotropic(N, dx)
+
     wf = physvis.wavefunction.wavepacket(
-        (2, 0),
-        (250, 250),
-        50,
+        (20, 0),
+        (-2, 0),
+        2.0,
         x,
     )
-    V = np.zeros((500, 500))
-    V[400:, :] = 1000000
+    V = np.zeros((N, N))
+    V[70:80, :] = 1000000
+    V[70:80, 40:45] = 0
+    V[70:80, 55:60] = 0
     assert (x.shape[:-1] == wf.shape)
 
     particle_system = physvis.ParticleSystem([
