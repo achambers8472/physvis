@@ -1,6 +1,5 @@
 import matplotlib.cm
 import numpy as np
-import PIL.Image
 import pyglet
 
 from . import space

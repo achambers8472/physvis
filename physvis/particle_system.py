@@ -8,7 +8,7 @@ class ParticleSystem:
     def update(self, dt):
         start = time.time()
         for particle in self.particles:
-            particle.update(dt)
+            particle.update(dt*0.1)
         print('Update time:', time.time() - start)
 
     def draw(self, canvas):
