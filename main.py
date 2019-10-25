@@ -14,10 +14,10 @@ def main(window_size=(1080, 1080)):
     x = qmvis.space.normal(N_x, dxs)
     dt = 0.01
 
-    wf = qmvis.wavefunction.wavepacket((20, 0), (-0.5, 0), 1.0, x)
+    wf = qmvis.wavefunction.wavepacket((0.5, 0.25), (-0.5, 0), 1.0, x)
 
     # V = qmvis.potential.double_slit(x)
-    V = qmvis.potential.barrier(x)
+    V = qmvis.potential.barrier(0.75, 0.1, 200, x)
 
     particle_system = qmvis.ParticleSystem(
         [qmvis.QuantumParticle(x, wf)],
