@@ -18,15 +18,13 @@ class QuantumParticle:
         self.psi = psi
         self.V = np.zeros_like(psi)
         self.dxs = self.x[1, 1] - self.x[0, 0]
-        self.x0 = self.x[0, 0]
 
         Ns = self.x.shape[:-1]
         self.dks = (2*np.pi)/(Ns*self.dxs)
         self.k = space.normal(Ns, self.dks)
-        self.k0 = self.k[0, 0]
-        # self.k = self.k0 + space.isotropic(N, self.dk)
+        k0 = self.k[0, 0]
 
-        self._k0_dot_x = (self.k0*self.x).sum(axis=-1)
+        self._k0_dot_x = (k0*self.x).sum(axis=-1)
         self._mod_factor = np.exp(-1j*self._k0_dot_x)*self.dxs[0]/(2*np.pi)
         self._unmod_factor = np.exp(1j*self._k0_dot_x)*(2*np.pi)/self.dxs[0]
         self._k2 = (self.k**2).sum(axis=-1)
