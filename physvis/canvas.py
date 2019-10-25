@@ -6,8 +6,8 @@ from . import space
 
 
 class Canvas:
-    def __init__(self):
-        pass
+    def __init__(self, size):
+        self.size = size
 
     def draw_point(self, x, colour=(255, 255, 255)):
         pyglet.graphics.draw(
@@ -37,4 +37,7 @@ class Canvas:
             pitch=data.shape[1]*data.shape[-1]*1,
         )
 
-        image.blit(0, 0, width=480, height=480)
+        image.blit(
+            0, 0,
+            width=self.size[0],
+            height=self.size[1])

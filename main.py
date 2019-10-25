@@ -1,31 +1,28 @@
 import functools
 
-import numpy as np
 import pyglet
 
-import physvis
+import physvis as qmvis
 
 
-def main():
-    canvas = physvis.Canvas()
+def main(window_size=(1080, 1080)):
+    window = qmvis.Window(window_size)
+    canvas = qmvis.Canvas(window_size)
 
-    Ns = [100, 100]
+    N_x = [100, 100]
     dxs = [0.1, 0.1]
-    x = physvis.space.normal(Ns, dxs)
+    x = qmvis.space.normal(N_x, dxs)
     dt = 0.01
 
-    wf = physvis.wavefunction.wavepacket((20, 0), (-3, 0), 1.0, x)
+    wf = qmvis.wavefunction.wavepacket((20, 0), (-3, 0), 1.0, x)
 
-    # V = physvis.potential.double_slit(x)
-    V = physvis.potential.barrier(x)
+    # V = qmvis.potential.double_slit(x)
+    V = qmvis.potential.barrier(x)
 
-    particle_system = physvis.ParticleSystem(
-        [physvis.QuantumParticle(x, wf)],
+    particle_system = qmvis.ParticleSystem(
+        [qmvis.QuantumParticle(x, wf)],
     )
     particle_system.particles[0].V = V
-
-    window = pyglet.window.Window()
-    window.config.alpha_size = 8
 
     @window.event
     def on_draw():
@@ -34,9 +31,9 @@ def main():
         pyglet.gl.glBlendFunc(pyglet.gl.GL_SRC_ALPHA, pyglet.gl.GL_ONE_MINUS_SRC_ALPHA)
         particle_system.draw(canvas)
 
-    pyglet.clock.schedule_interval(lambda _: particle_system.update(dt), dt)
+    qmvis.clock.schedule_interval(lambda _: particle_system.update(dt), dt)
 
-    pyglet.app.run()
+    qmvis.app.run()
 
 
 if __name__ == '__main__':

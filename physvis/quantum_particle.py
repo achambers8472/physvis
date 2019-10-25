@@ -47,5 +47,6 @@ class QuantumParticle:
         canvas.draw_map(
             self.V/self.V.max(),
             mask=(self.V != 0),
-            color_map='Greys'
+            color_map='Greys',
+            alpha=0.5,
         )
