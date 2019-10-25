@@ -5,6 +5,8 @@ def wavepacket(p_0, x_0, a, x):
     p_0 = np.asanyarray(p_0)
     x_0 = np.asanyarray(x_0)
 
+    x_0 = x_0/2*(x[1, 1] - x[0, 0])
+
     norm = 1/(a*np.sqrt(np.pi))
     wf = (
         norm
