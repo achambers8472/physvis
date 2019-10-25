@@ -9,10 +9,9 @@ import physvis
 def main():
     canvas = physvis.Canvas()
 
-    N = 100
-    dx = 0.1
-    x0 = -0.5*N*dx*np.asanyarray([1, 1])
-    x = x0 + physvis.space.isotropic(N, dx)
+    Ns = [100, 100]
+    dxs = [0.1, 0.1]
+    x = physvis.space.normal(Ns, dxs)
     dt = 0.01
 
     wf = physvis.wavefunction.wavepacket(
@@ -21,7 +20,7 @@ def main():
         1.0,
         x,
     )
-    V = np.zeros((N, N))
+    V = np.zeros(Ns)
 
     V[74:75, :] = 1000000
     V[74:75, 40:45] = 0

@@ -17,16 +17,18 @@ class QuantumParticle:
         self.x = x
         self.psi = psi
         self.V = np.zeros_like(psi)
-        self.dx = self.x[1, 0, 0] - self.x[0, 0, 0]
-        N = len(self.x)
-        self.dk = (2*np.pi)/(N*self.dx)
+        self.dxs = self.x[1, 1] - self.x[0, 0]
         self.x0 = self.x[0, 0]
-        self.k0 = -0.5*N*self.dk*np.asanyarray([1, 1])
-        self.k = self.k0 + space.isotropic(N, self.dk)
+
+        Ns = self.x.shape[:-1]
+        self.dks = (2*np.pi)/(Ns*self.dxs)
+        self.k = space.normal(Ns, self.dks)
+        self.k0 = self.k[0, 0]
+        # self.k = self.k0 + space.isotropic(N, self.dk)
 
         self._k0_dot_x = (self.k0*self.x).sum(axis=-1)
-        self._mod_factor = np.exp(-1j*self._k0_dot_x)*self.dx/(2*np.pi)
-        self._unmod_factor = np.exp(1j*self._k0_dot_x)*(2*np.pi)/self.dx
+        self._mod_factor = np.exp(-1j*self._k0_dot_x)*self.dxs[0]/(2*np.pi)
+        self._unmod_factor = np.exp(1j*self._k0_dot_x)*(2*np.pi)/self.dxs[0]
         self._k2 = (self.k**2).sum(axis=-1)
 
     def update(self, dt):
@@ -46,7 +48,7 @@ class QuantumParticle:
         self.psi = psi_x
 
     def draw(self, canvas):
-        p = normsq(self.psi)*self.dx**2
+        p = normsq(self.psi)*self.dxs.prod()
         canvas.draw_map(p/0.001)
         canvas.draw_map(
             self.V/self.V.max(),
