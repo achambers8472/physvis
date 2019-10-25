@@ -18,10 +18,8 @@ class QuantumParticle:
         self.psi = psi
         self.V = np.zeros_like(psi)
         self.dx = self.x[1, 0, 0] - self.x[0, 0, 0]
-        print(self.dx)
         N = len(self.x)
         self.dk = (2*np.pi)/(N*self.dx)
-        print(self.dk)
         # exit()
         self.x0 = self.x[0, 0]
         self.k0 = -0.5*N*self.dk*np.asanyarray([1, 1])
@@ -31,12 +29,8 @@ class QuantumParticle:
         dt = dt*0.01
         psi_x = self.psi
 
-        print(checksum(psi_x, self.dx))
-
         psi_mod_x = psi_x*np.exp(-1j*(self.k0*self.x).sum(axis=-1))*self.dx/(2*np.pi)
         psi_mod_x *= np.exp(-0.5j*self.V*dt)
-
-        print(checksum(psi_mod_x, self.dx))
 
         psi_mod_k = np.fft.fft2(psi_mod_x)#/len(psi_mod_x)
         psi_mod_k *= np.exp((-0.5j*dt/self.m)*(self.k**2).sum(axis=-1))
@@ -46,11 +40,14 @@ class QuantumParticle:
         psi_x = psi_mod_x*np.exp(1j*(self.k0*self.x).sum(axis=-1))*(2*np.pi)/self.dx
 
         self.psi = psi_x
-        print(checksum(self.psi, self.dx))
 
 
     def draw(self, canvas):
         p = normsq(self.psi)*self.dx**2
         canvas.draw_map(p/p.max())
+        canvas.draw_map(
+            self.V/self.V.max(),
+            mask=(self.V != 0),
+        )
         # tmp = normsq(np.fft.fft2(self.psi)/len(self.psi))
         # canvas.draw_map(self.x, tmp/tmp.max())
