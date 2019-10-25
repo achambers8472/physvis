@@ -5,11 +5,6 @@ import pyglet
 from . import space
 
 
-
-
-color_map = matplotlib.cm.get_cmap('viridis_r')
-
-
 class Canvas:
     def __init__(self):
         pass
@@ -22,8 +17,10 @@ class Canvas:
             ('c3B', colour,),
         )
 
-    def draw_map(self, array, alpha=1.0, mask=None):
-        data = color_map(array)*255
+    def draw_map(self, array, alpha=1.0, mask=None, color_map='viridis_r'):
+        color_map = matplotlib.cm.get_cmap(color_map)
+
+        data = color_map(1 - array)*255
         data[..., 3] *= alpha
 
         if mask is not None:

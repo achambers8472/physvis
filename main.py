@@ -14,22 +14,10 @@ def main():
     x = physvis.space.normal(Ns, dxs)
     dt = 0.01
 
-    wf = physvis.wavefunction.wavepacket(
-        (20, 0),
-        (-3, 0),
-        1.0,
-        x,
-    )
-    V = np.zeros(Ns)
+    wf = physvis.wavefunction.wavepacket((20, 0), (-3, 0), 1.0, x)
 
-    V[74:75, :] = 1000000
-    V[74:75, 40:45] = 0
-    V[74:75, 55:60] = 0
-    V[-1, :] = 1000000
-
-    # V[65:75, :] = 160
-
-    assert (x.shape[:-1] == wf.shape)
+    # V = physvis.potential.double_slit(x)
+    V = physvis.potential.barrier(x)
 
     particle_system = physvis.ParticleSystem(
         [physvis.QuantumParticle(x, wf)],

@@ -3,10 +3,6 @@ import numpy as np
 from . import space
 
 
-def checksum(psi, dx):
-    return (normsq(psi)*dx**2).sum()
-
-
 def normsq(psi):
     return np.abs(psi)**2
 
@@ -51,4 +47,5 @@ class QuantumParticle:
         canvas.draw_map(
             self.V/self.V.max(),
             mask=(self.V != 0),
+            color_map='Greys'
         )
