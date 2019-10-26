@@ -36,8 +36,8 @@ class QuantumParticle:
         _k0_dot_x = (k0*self.x).sum(axis=-1)
         _x0_dot_k = (x0*self.k).sum(axis=-1)
 
-        self._x_mod_factor = np.exp(-1j*_k0_dot_x)*self._dxs[0]/(2*np.pi)
-        self._x_unmod_factor = np.exp(1j*_k0_dot_x)*(2*np.pi)/self._dxs[0]
+        self._x_mod_factor = np.exp(-1j*_k0_dot_x)*self._dxs.prod()/(2*np.pi)
+        self._x_unmod_factor = np.exp(1j*_k0_dot_x)*(2*np.pi)/self._dxs.prod()
 
         self._k_unmod_factor = np.exp(-1j*_x0_dot_k)
         self._k_mod_factor = np.exp(-1j*_x0_dot_k)
