@@ -88,8 +88,8 @@ class QuantumParticle:
         self._psi_mod_x *= x_half_up_factor
 
     def draw(self, canvas):
-        p_x = normsq(self.psi_x)*self._dxs.prod()
-        p_k = normsq(self.psi_k)*self._dks.prod()
+        p_x = self.prob_x
+        p_k = self.prob_k
         canvas.draw_array((0, 0), p_x/0.001)
         canvas.draw_array((640, 0), p_k/0.001)
         canvas.draw_array(
@@ -99,3 +99,23 @@ class QuantumParticle:
             color_map='Greys',
             alpha=0.5,
         )
+
+    @property
+    def prob_x(self):
+        tmp = normsq(self.psi_x)*self._dxs.prod()
+        print(tmp.sum())
+        return tmp
+
+
+    @property
+    def prob_k(self):
+        tmp = normsq(self.psi_k)*self._dks.prod()
+        print(tmp.sum())
+        return tmp
+
+    def measure_x(self):
+        flat = self.prob_x.flatten()
+        flat = flat/flat.sum()
+        print(flat.sum())
+        ind = np.random.choice(np.arange(len(flat)), p=flat)
+        print(ind)
