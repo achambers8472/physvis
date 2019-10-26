@@ -48,6 +48,10 @@ class QuantumParticle:
     def k(self):
         return self._k
 
+    @k.setter
+    def k(self, k):
+        raise NotImplementedError()
+
     @property
     def psi_x(self):
         return self._psi_mod_x*self._x_unmod_factor
@@ -59,9 +63,7 @@ class QuantumParticle:
 
     @property
     def psi_k(self):
-        tmp = self._psi_mod_k*self._k_unmod_factor
-        print((normsq(tmp)*self._dks.prod()).sum())
-        return tmp
+        return self._psi_mod_k*self._k_unmod_factor
 
     @psi_k.setter
     def psi_k(self, psi_k):
@@ -71,21 +73,27 @@ class QuantumParticle:
     def _mod_x_to_mod_k(self, psi_mod_x):
         return np.fft.fft2(psi_mod_x)
 
+    def _mod_k_to_mod_x(self, psi_mod_k):
+        return np.fft.ifft2(psi_mod_k)
+
     def update(self, dt):
         x_half_up_factor = np.exp((-0.5j*dt)*self.V)
 
         self._psi_mod_x *= x_half_up_factor
 
-        self._psi_mod_k = np.fft.fft2(self._psi_mod_x)
+        self._psi_mod_k = self._mod_x_to_mod_k(self._psi_mod_x)
         self._psi_mod_k *= np.exp((-0.5j*dt/self.m)*self._k2)
-        self._psi_mod_x = np.fft.ifft2(self._psi_mod_k)
+        self._psi_mod_x = self._mod_k_to_mod_x(self._psi_mod_k)
 
         self._psi_mod_x *= x_half_up_factor
 
     def draw(self, canvas):
-        p = normsq(self.psi_x)*self._dxs.prod()
-        canvas.draw_map(p/0.001)
-        canvas.draw_map(
+        p_x = normsq(self.psi_x)*self._dxs.prod()
+        p_k = normsq(self.psi_k)*self._dks.prod()
+        canvas.draw_array((0, 0), p_x/0.001)
+        canvas.draw_array((640, 0), p_k/0.001)
+        canvas.draw_array(
+            (0, 0),
             self.V/self.V.max(),
             mask=(self.V != 0),
             color_map='Greys',

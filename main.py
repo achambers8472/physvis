@@ -5,7 +5,7 @@ import pyglet
 import physvis as qmvis
 
 
-def main(window_size=(1080, 1080)):
+def main(window_size=(1280, 640)):
     window = qmvis.Window(window_size)
     canvas = qmvis.Canvas(window_size)
 

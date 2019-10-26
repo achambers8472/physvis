@@ -17,7 +17,14 @@ class Canvas:
             ('c3B', colour,),
         )
 
-    def draw_map(self, array, alpha=1.0, mask=None, color_map='viridis_r'):
+    def draw_array(
+            self,
+            pos,
+            array,
+            alpha=1.0,
+            mask=None,
+            color_map='viridis_r',
+    ):
         color_map = matplotlib.cm.get_cmap(color_map)
 
         data = color_map(1 - array)*255
@@ -38,6 +45,6 @@ class Canvas:
         )
 
         image.blit(
-            0, 0,
-            width=self.size[0],
+            pos[0], pos[1],
+            width=self.size[0]/2,
             height=self.size[1])

@@ -3,7 +3,7 @@ import pyglet
 
 class Window:
     def __init__(self, size):
-        self._window = pyglet.window.Window(width=1080, height=1080)
+        self._window = pyglet.window.Window(width=size[0], height=size[1])
         self._window.config.alpha_size = 8
 
     def event(self, callback):
