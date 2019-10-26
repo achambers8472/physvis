@@ -33,15 +33,20 @@ class QuantumParticle:
         self._k = space.normal(Ns, self._dks)
         k0 = self._k[0, 0]
 
-        self._k0_dot_x = (k0*self.x).sum(axis=-1)
+        _k0_dot_x = (k0*self.x).sum(axis=-1)
+        _x0_dot_k = (x0*self.k).sum(axis=-1)
 
-        self._x_mod_factor = np.exp(-1j*self._k0_dot_x)*self._dxs[0]/(2*np.pi)
-        self._x_unmod_factor = np.exp(1j*self._k0_dot_x)*(2*np.pi)/self._dxs[0]
+        self._x_mod_factor = np.exp(-1j*_k0_dot_x)*self._dxs[0]/(2*np.pi)
+        self._x_unmod_factor = np.exp(1j*_k0_dot_x)*(2*np.pi)/self._dxs[0]
 
-        self._k_unmod_factor = np.exp(-1j*x0*self._k)
-        self._k_mod_factor = np.exp(-1j*x0*self._k)
+        self._k_unmod_factor = np.exp(-1j*_x0_dot_k)
+        self._k_mod_factor = np.exp(-1j*_x0_dot_k)
 
         self._k2 = (self._k**2).sum(axis=-1)
+
+    @property
+    def k(self):
+        return self._k
 
     @property
     def psi_x(self):
@@ -50,15 +55,21 @@ class QuantumParticle:
     @psi_x.setter
     def psi_x(self, psi_x):
         self._psi_mod_x = self._x_mod_factor*psi_x
+        self._psi_mod_k = self._mod_x_to_mod_k(self._psi_mod_x)
 
     @property
     def psi_k(self):
-        return self._psi_mod_k*self._k_unmod_factor
+        tmp = self._psi_mod_k*self._k_unmod_factor
+        print((normsq(tmp)*self._dks.prod()).sum())
+        return tmp
 
     @psi_k.setter
     def psi_k(self, psi_k):
         raise NotImplementedError()
         self._psi_mod_k = self._k_mod_factor*psi_k
+
+    def _mod_x_to_mod_k(self, psi_mod_x):
+        return np.fft.fft2(psi_mod_x)
 
     def update(self, dt):
         x_half_up_factor = np.exp((-0.5j*dt)*self.V)
