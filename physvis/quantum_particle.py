@@ -92,16 +92,12 @@ class QuantumParticle:
 
     @property
     def prob_x(self):
-        tmp = normsq(self.psi_x)*self._dxs.prod()
-        print(tmp.sum())
-        return tmp
+        return normsq(self.psi_x)*self._dxs.prod()
 
 
     @property
     def prob_k(self):
-        tmp = normsq(self.psi_k)*self._dks.prod()
-        print(tmp.sum())
-        return tmp
+        return normsq(self.psi_k)*self._dks.prod()
 
     def measure_x(self):
         p_x = self.prob_x
@@ -116,3 +112,11 @@ class QuantumParticle:
         x_0 = self.x[ind]
         print(x_0)
         self.psi_x = wavefunction.wavepacket((0, 0), x_0, self._dxs[0], self.x)
+
+    @classmethod
+    def wavepacket(cls, k0, x0, a, x, m=1):
+        return cls(x, wavefunction.wavepacket(k0, x0, a, x), m=m)
+
+    @classmethod
+    def delta(cls, x0, x, m=1):
+        return cls(x, wavefunction.delta(x0, x), m=m)
