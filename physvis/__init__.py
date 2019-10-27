@@ -7,6 +7,7 @@ from .quantum_particle import QuantumParticle
 from .canvas import Canvas
 from . import wavefunction
 from . import potential
+from . import force
 from .window import Window
 from . import clock
 from . import app

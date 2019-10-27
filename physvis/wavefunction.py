@@ -22,8 +22,6 @@ def wavepacket(k_0, x_0, a, x):
     k_0 = np.asanyarray(k_0)
     x_0 = np.asanyarray(x_0)
 
-    k = space.k_from_x(x)
-
     norm = 1/(a*np.sqrt(np.pi))
     wf = (
         norm
