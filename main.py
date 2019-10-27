@@ -14,17 +14,17 @@ def main(window_size=(1280, 640)):
     x = qmvis.space.normal(N_x, dxs)
     dt = 0.01
 
-    # wf = qmvis.wavefunction.wavepacket((0.5, 0), (-0.5, 0), 1.0, x)
-    wf = qmvis.wavefunction.delta((0, 0), x)
-    print('wf', wf.sum()*dxs[0]*dxs[1])
+    wf = qmvis.wavefunction.wavepacket((25, 0), (-2.5, 0), 1.0, x)
+    # wf = qmvis.wavefunction.delta((0, 0), x)
 
     V = qmvis.potential.double_slit(x)
     # V = qmvis.potential.barrier(0.75, 0.1, 200, x)
+    # V = qmvis.potential.inv_sq((0, 0), -0.0001, x)
 
-    particle_system = qmvis.ParticleSystem(
+    particle_system = qmvis.QuantumSystem(
         [qmvis.QuantumParticle(x, wf)],
+        V,
     )
-    particle_system.particles[0].V = V
 
     @window.event
     def on_draw():

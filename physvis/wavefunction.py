@@ -18,14 +18,11 @@ def delta(x_0, x):
     return wavepacket((0, 0), x_0, dx[0], x)
 
 
-
 def wavepacket(k_0, x_0, a, x):
     k_0 = np.asanyarray(k_0)
     x_0 = np.asanyarray(x_0)
 
-    x_0 = x_0/2*(x[-1, -1] - x[0, 0])
     k = space.k_from_x(x)
-    k_0 = k_0/2*(k[-1, -1] - k[0, 0])
 
     norm = 1/(a*np.sqrt(np.pi))
     wf = (

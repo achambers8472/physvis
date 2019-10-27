@@ -1,6 +1,7 @@
 import numpy as np
 
 from . import space
+from . import wavefunction
 
 
 def normsq(psi):
@@ -8,14 +9,10 @@ def normsq(psi):
 
 
 class QuantumParticle:
-    def __init__(self, x, psi_x, m=1, V=None):
-        if V is None:
-            V = np.zeros_like(psi_x)
-
+    def __init__(self, x, psi_x, m=1):
         self.x = x
         self.psi_x = psi_x
         self.m = m
-        self.V = V
 
     @property
     def x(self):
@@ -76,8 +73,8 @@ class QuantumParticle:
     def _mod_k_to_mod_x(self, psi_mod_k):
         return np.fft.ifft2(psi_mod_k)
 
-    def update(self, dt):
-        x_half_up_factor = np.exp((-0.5j*dt)*self.V)
+    def update(self, V, dt):
+        x_half_up_factor = np.exp((-0.5j*dt)*V)
 
         self._psi_mod_x *= x_half_up_factor
 
@@ -92,13 +89,6 @@ class QuantumParticle:
         p_k = self.prob_k
         canvas.draw_array((0, 0), p_x/0.001)
         canvas.draw_array((640, 0), p_k/0.001)
-        canvas.draw_array(
-            (0, 0),
-            self.V/self.V.max(),
-            mask=(self.V != 0),
-            color_map='Greys',
-            alpha=0.5,
-        )
 
     @property
     def prob_x(self):
@@ -114,8 +104,15 @@ class QuantumParticle:
         return tmp
 
     def measure_x(self):
-        flat = self.prob_x.flatten()
+        p_x = self.prob_x
+        flat = p_x.flatten()
         flat = flat/flat.sum()
         print(flat.sum())
         ind = np.random.choice(np.arange(len(flat)), p=flat)
         print(ind)
+        ind = np.unravel_index(ind, p_x.shape)
+        print(ind)
+        print(self.x.shape)
+        x_0 = self.x[ind]
+        print(x_0)
+        self.psi_x = wavefunction.wavepacket((0, 0), x_0, self._dxs[0], self.x)

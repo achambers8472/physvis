@@ -22,3 +22,9 @@ def barrier(pos, width, height, x):
 
     V[start:end, :] = height
     return V
+
+
+def inv_sq(x_0, a, x):
+    V = a/((x - x_0)**2).sum(axis=-1)
+    V[np.isnan(V)] = 0
+    return V
