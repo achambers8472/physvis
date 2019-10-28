@@ -92,7 +92,7 @@ class QuantumParticle:
         p_x = self.prob_x
         p_k = self.prob_k
         canvas.draw_array((0, 0), p_x/p_x.max())
-        canvas.draw_array((640, 0), p_k/p_k.max())
+        canvas.draw_array((canvas.size[0]/2, 0), p_k/p_k.max())
 
     @property
     def prob_x(self):

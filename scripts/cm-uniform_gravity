@@ -3,18 +3,18 @@
 import physvis
 
 
-def main(window_size=(1280, 640)):
+def main():
     N_x = [100, 100]
     dxs = [0.1, 0.1]
     x = physvis.space.normal(N_x, dxs)
     dt = 0.01
 
     system = physvis.ClassicalSystem(
-        [physvis.ClassicalParticle(x, (-5, -5), (5, 5))],
+        [physvis.ClassicalParticle(x, (-5, 0), (5, 5))],
         [physvis.force.uniform_gravity],
     )
 
-    simulation = physvis.Simulation(system, dt)
+    simulation = physvis.Simulation(system, dt, window_size=(1280, 1280))
 
     simulation.run()
 

@@ -23,5 +23,5 @@ class ClassicalParticle:
         sc = y/(self.x[-1, -1] - self.x[0, 0])
         act = ((self.pos - self.x[0, 0])*sc).astype(int)
         canvas.draw_point(act, max(int(self.mass), 1))
-        canvas.draw_line(act, (act + self.vel*sc).astype(int))
-        canvas.draw_line(act, (act + self._acc*sc).astype(int), (0, 255, 0, 255))
+        canvas.draw_line(act, (act + self.vel*sc*0.1).astype(int))
+        canvas.draw_line(act, (act + self._acc*sc*0.01).astype(int), (0, 255, 0, 255))
