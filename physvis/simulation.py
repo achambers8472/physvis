@@ -1,3 +1,5 @@
+import time
+
 import pyglet
 
 from . import app
@@ -17,10 +19,12 @@ class Simulation:
 
         @self.window.event
         def on_draw():
+            start = time.time()
             self.window.clear()
             pyglet.gl.glEnable(pyglet.gl.GL_BLEND)
             pyglet.gl.glBlendFunc(pyglet.gl.GL_SRC_ALPHA, pyglet.gl.GL_ONE_MINUS_SRC_ALPHA)
             self.system.draw(self.canvas)
+            print(f"Draw time (s): {time.time() - start}")
 
         @self.window.event
         def on_key_press(symbol, modifiers):
@@ -31,7 +35,9 @@ class Simulation:
 
         def update(_):
             if not self._paused:
+                start = time.time()
                 self.system.update(dt)
+                print(f"Update time (s): {time.time() - start}")
 
         clock.schedule_interval(update, 1/60)
 

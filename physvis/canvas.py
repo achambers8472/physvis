@@ -3,6 +3,7 @@ import numpy as np
 import pyglet
 
 from . import space
+from . import time
 
 
 def array_to_image(array, format='RGBA'):
@@ -22,7 +23,6 @@ class Canvas:
     def __init__(self, size):
         self.size = size
 
-
     def draw_point(self, x, r, colour=(255, 255, 255, 255)):
         colour = np.asanyarray(colour)
         image = array_to_image(np.ones((2*r, 2*r, 4))*colour)
@@ -37,18 +37,18 @@ class Canvas:
             ('c4B', colour + colour,),
         )
 
-
     def draw_array(
             self,
             pos,
             array,
             alpha=1.0,
             mask=None,
-            color_map='viridis_r',
+            color_map='inferno',
     ):
+        start = time.time()
         color_map = matplotlib.cm.get_cmap(color_map)
 
-        data = color_map(1 - array)*255
+        data = color_map(array)*255
         data[..., 3] *= alpha
 
         if mask is not None:
@@ -56,7 +56,7 @@ class Canvas:
 
         data = np.swapaxes(data, 0, 1)
 
-        tex_data = (pyglet.gl.GLubyte*data.size)(*data.flatten().astype('uint8'))
+        tex_data = data.flatten().astype('uint8').tobytes()
         image = pyglet.image.ImageData(
             data.shape[0],
             data.shape[1],

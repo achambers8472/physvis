@@ -10,7 +10,10 @@ def main():
     dt = 0.01
 
     system = physvis.ClassicalSystem(
-        [physvis.ClassicalParticle(x, (-5, 0), (5, 5))],
+        [
+            physvis.ClassicalParticle(x, (-5, 0), (7, 7)),
+            physvis.ClassicalParticle(x, (-5, 0), (0, 7)),
+        ],
         [physvis.force.uniform_gravity],
     )
 

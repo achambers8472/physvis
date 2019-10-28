@@ -1,3 +1,5 @@
+import numpy as np
+
 class QuantumSystem:
     def __init__(self, particles, potential):
         self.particles = particles
@@ -14,6 +16,6 @@ class QuantumSystem:
             (0, 0),
             self.potential/self.potential.max(),
             mask=(self.potential != 0),
-            color_map='Greys',
+            color_map='Greys_r',
             alpha=0.5,
         )

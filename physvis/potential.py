@@ -18,7 +18,7 @@ def barrier(pos, width, height, x):
     pos = np.asanyarray(pos)
     V = np.zeros(x.shape[:-1])
 
-    inds = (x[:, :, 0] > pos-width/2) & (x[:, :, 0] < pos + width/2)
+    inds = (x[:, :, 0] > (pos - width/2)) & (x[:, :, 0] < (pos + width/2))
 
     V[inds] = height
     return V

@@ -15,8 +15,8 @@ class QuantumParticle:
         self.x = x
         self.psi_x = psi_x
         self.m = m
-        # self._x_scale = self.prob_x.max()
-        # self._k_scale = self.prob_k.max()
+        self._x_scale = self.prob_x.max()
+        self._k_scale = self.prob_k.max()
 
     @property
     def x(self):
@@ -91,8 +91,8 @@ class QuantumParticle:
     def draw(self, canvas):
         p_x = self.prob_x
         p_k = self.prob_k
-        canvas.draw_array((0, 0), p_x*np.sqrt(100*100))
-        canvas.draw_array((canvas.size[0]/2, 0), p_k*np.sqrt(100*100))
+        canvas.draw_array((0, 0), p_x/self._x_scale)#*np.sqrt(100*100))
+        canvas.draw_array((canvas.size[0]/2, 0), p_k/self._k_scale)#*np.sqrt(100*100))
 
     @property
     def prob_x(self):
