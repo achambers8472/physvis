@@ -1,0 +1,34 @@
+#!/usr/bin/env python
+
+import numpy as np
+
+import physvis
+
+
+def main():
+    N_x = [100, 100]
+    dxs = [0.1, 0.1]
+    x = physvis.space.normal(N_x, dxs)
+    dt = 0.01
+
+    positions = (np.random.random((10, 2))-0.5)*10
+    # velocities = (np.random.random((10, 2))-0.5)*0.1
+    velocities = np.zeros((10, 2))
+    masses = np.random.random((10,))*10
+    particles = [
+        physvis.ClassicalParticle(x, pos, vel/mass, mass=mass)
+        for pos, vel, mass in zip(positions, velocities, masses)
+    ]
+
+    system = physvis.ClassicalSystem(
+        particles,
+        [physvis.force.gravity],
+    )
+
+    simulation = physvis.Simulation(system, dt, window_size=(1280, 1280))
+
+    simulation.run()
+
+
+if __name__ == '__main__':
+    main()

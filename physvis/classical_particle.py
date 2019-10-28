@@ -9,13 +9,19 @@ class ClassicalParticle:
         self.pos = np.asanyarray(pos, dtype=float)
         self.vel = np.asanyarray(vel, dtype=float)
         self.mass = mass
+        self._acc = np.zeros((2,))
 
     def update(self, F, dt):
-        self.vel += (F/self.mass)*(dt/2)
+        acc = F/self.mass
+        self.vel += acc*(dt/2)
         self.pos += self.vel*dt
-        self.vel += (F/self.mass)*(dt/2)
+        self.vel += acc*(dt/2)
+        self._acc = acc
 
     def draw(self, canvas):
         y = np.asanyarray(canvas.size)
-        act = ((self.pos - self.x[0, 0])/(self.x[-1, -1] - self.x[0, 0])*y).astype(int)
-        canvas.draw_point(act)
+        sc = y/(self.x[-1, -1] - self.x[0, 0])
+        act = ((self.pos - self.x[0, 0])*sc).astype(int)
+        canvas.draw_point(act, max(int(self.mass), 1))
+        canvas.draw_line(act, (act + self.vel*sc).astype(int))
+        canvas.draw_line(act, (act + self._acc*sc).astype(int), (0, 255, 0, 255))
