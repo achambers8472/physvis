@@ -3,7 +3,7 @@
 import physvis
 
 
-def main(window_size=(1280, 640)):
+def main(window_size=(1080, 540)):
     N_x = [100, 100]
     dxs = [0.1, 0.1]
     x = physvis.space.normal(N_x, dxs)

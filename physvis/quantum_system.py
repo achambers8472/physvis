@@ -19,3 +19,7 @@ class QuantumSystem:
             color_map='Greys_r',
             alpha=0.5,
         )
+        canvas.draw_line(
+            (int(canvas.size[0]/2), 0),
+            (int(canvas.size[0]/2), canvas.size[1]),
+        )
