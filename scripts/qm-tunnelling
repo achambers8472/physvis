@@ -7,7 +7,7 @@ def main(window_size=(1280, 640)):
     N_x = [100, 100]
     dxs = [0.1, 0.1]
     x = physvis.space.normal(N_x, dxs)
-    dt = 0.001
+    dt = 0.005
 
     particle = physvis.QuantumParticle.wavepacket(
         (0, 0),
