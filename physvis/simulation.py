@@ -8,9 +8,10 @@ from . import window
 
 
 class Simulation:
-    def __init__(self, system, dt, window_size=(1280, 640)):
+    def __init__(self, system, dt, rate=1.0, window_size=(1280, 640)):
         self.system = system
         self.dt = dt
+        self.rate = rate
         self.window = window.Window(window_size)
         self.canvas = canvas.Canvas(window_size)
 
@@ -23,13 +24,15 @@ class Simulation:
 
         @self.window.event
         def on_key_press(symbol, modifiers):
-            if symbol == pyglet.window.key.X:
-                self.system.particles[0].measure_x()
+            {
+                pyglet.window.key.X: self.system.particles[0].measure_x,
+                # pyglet.window.key.SPACE:
+            }.get(symbol, lambda: print(f"{symbol} is not bound!"))()
 
         def update(_):
             self.system.update(dt)
 
-        clock.schedule_interval(update, dt)
+        clock.schedule_interval(update, dt/self.rate)
 
     def run(self):
         app.run()

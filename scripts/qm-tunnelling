@@ -1,0 +1,28 @@
+#!/usr/bin/env python
+
+import physvis
+
+
+def main(window_size=(1280, 640)):
+    N_x = [100, 100]
+    dxs = [0.1, 0.1]
+    x = physvis.space.normal(N_x, dxs)
+    dt = 0.001
+
+    particle = physvis.QuantumParticle.wavepacket(
+        (0, 0),
+        (0, 0),
+        0.1,
+        x,
+    )
+
+    V = physvis.potential.well(5, 2, 100, x)
+
+    quantum_system = physvis.QuantumSystem([particle], V)
+    simulation = physvis.Simulation(quantum_system, dt)
+
+    simulation.run()
+
+
+if __name__ == '__main__':
+    main()

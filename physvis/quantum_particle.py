@@ -1,3 +1,5 @@
+import time
+
 import numpy as np
 
 from . import space
@@ -13,6 +15,8 @@ class QuantumParticle:
         self.x = x
         self.psi_x = psi_x
         self.m = m
+        # self._x_scale = self.prob_x.max()
+        # self._k_scale = self.prob_k.max()
 
     @property
     def x(self):
@@ -87,8 +91,8 @@ class QuantumParticle:
     def draw(self, canvas):
         p_x = self.prob_x
         p_k = self.prob_k
-        canvas.draw_array((0, 0), p_x/0.001)
-        canvas.draw_array((640, 0), p_k/0.001)
+        canvas.draw_array((0, 0), p_x/p_x.max())
+        canvas.draw_array((640, 0), p_k/p_k.max())
 
     @property
     def prob_x(self):
@@ -103,14 +107,9 @@ class QuantumParticle:
         p_x = self.prob_x
         flat = p_x.flatten()
         flat = flat/flat.sum()
-        print(flat.sum())
         ind = np.random.choice(np.arange(len(flat)), p=flat)
-        print(ind)
         ind = np.unravel_index(ind, p_x.shape)
-        print(ind)
-        print(self.x.shape)
         x_0 = self.x[ind]
-        print(x_0)
         self.psi_x = wavefunction.wavepacket((0, 0), x_0, self._dxs[0], self.x)
 
     @classmethod

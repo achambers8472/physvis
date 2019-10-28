@@ -5,7 +5,7 @@ class QuantumSystem:
 
     def update(self, dt):
         for particle in self.particles:
-            particle.update(self.potential, dt*0.1)
+            particle.update(self.potential, dt)
 
     def draw(self, canvas):
         for particle in self.particles:
