@@ -16,14 +16,6 @@ class ClassicalParticle:
         self.vel += (F/self.mass)*(dt/2)
 
     def draw(self, canvas):
-        print(f"Drawing classical particle at {self.pos}")
-        dxs = self.x[1, 1] - self.x[0, 0]
-        array = wavefunction.wavepacket(
-            (0, 0),
-            self.pos,
-            dxs[0],
-            self.x,
-        )
-        array = (np.abs(array)**2)*dxs.prod()
-        canvas.draw_array((0, 0), array/0.001)
-        # canvas.draw_point(self.pos.astype(int))
+        y = np.asanyarray(canvas.size)
+        act = ((self.pos - self.x[0, 0])/(self.x[-1, -1] - self.x[0, 0])*y).astype(int)
+        canvas.draw_point(act)
