@@ -17,7 +17,7 @@ def main():
         [physvis.force.uniform_gravity],
     )
 
-    simulation = physvis.Simulation(system, dt, window_size=(1280, 1280))
+    simulation = physvis.Simulation(system, dt, window_size=(1080, 1080))
 
     simulation.run()
 
